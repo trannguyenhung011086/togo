@@ -121,6 +121,29 @@ func (s *ToDoService) addTask(resp http.ResponseWriter, req *http.Request) {
 
 	resp.Header().Set("Content-Type", "application/json")
 
+	// check current count of daily tasks
+	count, err := s.Store.CountDailyTasks(req.Context(), value(req, userID))
+	if err != nil {
+		resp.WriteHeader(http.StatusInternalServerError)
+		json.NewEncoder(resp).Encode(map[string]string{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	maxTasks, err := s.Store.GetMaxTasks(req.Context(), value(req, userID))
+	if err != nil {
+		maxTasks = 5
+	}
+
+	if count > maxTasks {
+		resp.WriteHeader(http.StatusInternalServerError)
+		json.NewEncoder(resp).Encode(map[string]string{
+			"error": "Exceeded max tasks per day",
+		})
+		return
+	}
+
 	err = s.Store.AddTask(req.Context(), t)
 	if err != nil {
 		resp.WriteHeader(http.StatusInternalServerError)
