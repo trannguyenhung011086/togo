@@ -31,7 +31,7 @@ Example: users are limited to create only 5 task only per day, if the daily limi
 ```sql
 -- users definition
 
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
 	id TEXT NOT NULL,
 	password TEXT NOT NULL,
 	max_todo INTEGER DEFAULT 5 NOT NULL,
@@ -42,7 +42,7 @@ INSERT INTO users (id, password, max_todo) VALUES('firstUser', 'example', 5);
 
 -- tasks definition
 
-CREATE TABLE tasks (
+CREATE TABLE IF NOT EXISTS tasks (
 	id TEXT NOT NULL,
 	content TEXT NOT NULL,
 	user_id TEXT NOT NULL,
