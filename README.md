@@ -21,7 +21,7 @@ Example: users are limited to create only 5 task only per day, if the daily limi
 - This project include many issues from code to DB strucutre, feel free to optimize them.
 #### Frontend requirements
 - A nice README on how to run, what is missing, what else you want to improve but don't have enough time
-- https://github.com/manabie-com/mana-do
+- https://github.com/trannguyenhung011086/mana-do
 - Fork the above repo and show us your development progess by a PR.
 #### Optional requirements
 - Write unit test for `storages` layer
@@ -53,4 +53,4 @@ CREATE TABLE IF NOT EXISTS tasks (
 ```
 
 ### Sequence diagram
-![auth and create tasks request](https://github.com/manabie-com/togo/blob/master/docs/sequence.svg)
+![auth and create tasks request](https://github.com/trannguyenhung011086/togo/blob/master/docs/sequence.svg)

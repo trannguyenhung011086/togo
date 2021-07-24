@@ -10,15 +10,16 @@ import (
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gorilla/mux"
-	Services "github.com/manabie-com/togo/internal/services"
-	postgres "github.com/manabie-com/togo/internal/storages/postgres"
-	utils "github.com/manabie-com/togo/internal/utils"
+	repository "github.com/trannguyenhung011086/togo/internal/repository"
+	services "github.com/trannguyenhung011086/togo/internal/services"
+	postgres "github.com/trannguyenhung011086/togo/internal/storages/postgres"
+	utils "github.com/trannguyenhung011086/togo/internal/utils"
 )
 
 type App struct {
 	Router *mux.Router
 	DB *sql.DB
-	ToDoService *Services.ToDoService
+	TaskService *services.TaskService
 }
 
 func (a *App) run(addr string) {
@@ -67,11 +68,11 @@ func (app *App) initialize(user, password, dbname, host, port, jwtkey string) {
 }
 
 func (app *App) initializeRoutes(jwtkey string) {
-	todoService := &Services.ToDoService{JWTKey: jwtkey, Store: &postgres.Pg{DB: app.DB}}
+	TaskService := &services.TaskService{JWTKey: jwtkey, TaskRepo: &repository.TaskRepo{Store: &postgres.Pg{DB: app.DB}}}
 	
-	app.Router.HandleFunc("/login", todoService.GetAuthToken).Methods("GET")
-	app.Router.HandleFunc("/tasks", authMiddleware(jwtkey, todoService.ListTasks)).Methods("GET")
-	app.Router.HandleFunc("/tasks", authMiddleware(jwtkey, todoService.AddTask)).Methods("POST")
+	app.Router.HandleFunc("/login", TaskService.GetAuthToken).Methods("GET")
+	app.Router.HandleFunc("/tasks", authMiddleware(jwtkey, TaskService.ListTasks)).Methods("GET")
+	app.Router.HandleFunc("/tasks", authMiddleware(jwtkey, TaskService.AddTask)).Methods("POST")
 }
 
 func authMiddleware(jwtkey string, next http.HandlerFunc) http.HandlerFunc {

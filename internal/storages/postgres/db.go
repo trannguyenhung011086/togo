@@ -7,7 +7,7 @@ import (
 	"time"
 
 	_ "github.com/lib/pq"
-	"github.com/manabie-com/togo/internal/storages"
+	storages "github.com/trannguyenhung011086/togo/internal/storages"
 )
 
 type Pg struct {
