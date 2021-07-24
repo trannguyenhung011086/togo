@@ -118,7 +118,3 @@ func (s *TaskService) AddTask(resp http.ResponseWriter, req *http.Request) {
 	result := map[string]*storages.Task{"data": task}
 	utils.RespondWithJSON(resp, http.StatusOK, result)
 }
-
-
-
-
